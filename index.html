@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Poke battle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="/"><img src="/pokeball.png" alt="hjemeside"></a>
+        <!-- <a href="/oss.html">Oss</a>
+        <a href="/kalkulator.html">Kalkulator</a>
+        <a href="/bilder.html">Bilder</a>
+        <a href="/kontakt.html">Kontakt</a> -->
+        <button onclick="toggleModal()">☰</button>
+    </nav>
+
+    <main class="flexi">
+
+        <h1 id="status">Pokemon trainer chooses</h1>
+
+        <div class="card">
+            <img src="/images/sommerferie.jpg" alt="tursti">
+            <h1>Pokemon 1</h1>
+            Nå skal jeg ut på tur, endelig er det sommerferie.
+        </div>
+
+        <div class="card">
+            <img src="/images/sommerferie.jpg" alt="tursti">
+            <h1>Pokemon 2</h1>
+            Nå skal jeg ut på tur, endelig er det sommerferie.
+        </div>
+
+        <div class="fullWidth flexi">
+            <h1>Pick a pokemon</h1>
+        </div>
+
+    </main>
+
+
+    <footer>
+        Laget av Martin Vadseth Høiby - Pokemon API av <a href="https://pokeapi.co/docs/v2#pokemon-section">https://pokeapi.co/docs/v2#pokemon-section</a>
+    </footer>
+
+    <div id="contactModal" class="contactModal hidden">
+        <div class="contactContent">
+            
+            <h1>Send oss en hilsen</h1>
+            <form action="#">
+                
+                <p>Navn:</p>
+                <input type="text" name="navn" id="navn">
+
+                <p>Epost:</p>
+                <input type="email" name="epost" id="epost">
+                
+                <p>Melding:</p>
+                <textarea name="contactMessage" id="contactMessage"></textarea>
+                <br>
+                <button type="button" onclick="toggleModal()">Avbryt</button>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
