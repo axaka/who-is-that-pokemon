@@ -55,6 +55,10 @@ main h1 {
     text-align: center;
 }
 
+.pokemon {
+    
+}
+
 .card {
     color: black;
     text-align: justify;
@@ -145,7 +149,7 @@ input {
     border-radius: 15px;
 }
 
-.contactContent > h1 {
+.contactContered > h1 {
     text-align: center;
 }
 
