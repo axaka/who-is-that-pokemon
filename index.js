@@ -20,7 +20,7 @@ function getCard(index = 0) {
 
 function setCardData(card, data) {
   card.querySelector("img").src = data.frontSprite;
-  card.querySelector("h1").innerHTML = data.name;
+  card.querySelector("h1").innerHTML = "?"; //data.name;
 }
 
 // Fetch Pokémon
@@ -32,7 +32,7 @@ async function fetchPokemonList(limit = 10) {
     const data = await response.json();
     let pokemonDatas = [];
     for (const pokemon of data.results) {
-      const pokemonData = fetchPokemonDetails(pokemon.url);
+      const pokemonData = await fetchPokemonDetails(pokemon.url);
       pokemonDatas.push(pokemonData);
     }
     return pokemonDatas;
@@ -143,17 +143,36 @@ function run() {
     setCardData(card, correctPokemon);
 
     // Set button A, B and C
+    setSelectButtons(options);
   }
 }
 
+function setSelectButtons(options) {
+  const buttons = document.querySelectorAll(".pickOption");
+
+  options.forEach((element, index) => {
+    if (!buttons[index]) return;
+
+    const button = buttons[index];
+
+    if (!element) {
+      button.classList.add("hidden");
+    } else {
+      button.classList.remove("hidden");
+      button.innerHTML = element.name;
+    }
+  });
+}
+
 function select(selected = undefined) {
-  if (selected) {
-    if (selected == correctPokemon.name) {
+  if (selected?.innerHTML) {
+    if (selected.innerHTML == correctPokemon.name) {
       score.correct++;
     } else {
       score.incorrect++;
     }
+    console.log(`score is ${score.correct}/${score.correct + score.incorrect}`);
 
-    next();
+    run();
   }
 }
