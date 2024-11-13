@@ -6,6 +6,9 @@ class Pokemon {
     this.hasFemaleSprite = data.sprites.front_female != null;
     this.hasShinySprite = data.sprites.front_shiny != null;
 
+    // Shiny sprite doesn't always work... Just disable
+    this.hasShinySprite = false;
+
     this.sex = randomRange(0, 1) == 0 ? "female" : "male";
     this.shiny = this.hasShinySprite && randomRange(0, 100) >= 99;
 

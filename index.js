@@ -1,21 +1,23 @@
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
+const mySlider = document.getElementById("mySlider");
+const mySliderDisplay = document.getElementById("mySliderDisplay");
+function updateSlider(slider) {
+  mySliderDisplay.innerHTML = mySlider.value;
+}
+function getSliderValue() {
+  return mySlider.value;
+}
+
 function toggleModal() {
   let modal = document.getElementById("contactModal");
   modal.classList.toggle("hidden");
 }
 
 var myAudio = document.getElementById("myAudio");
-function playAudio() {
+function playAudio(url) {
+  myAudio.querySelector("source").src = url;
   myAudio.play();
-}
-
-function debugPokemon() {
-  let debugObject = document.getElementById("debug");
-  let pokemon = randomPokemon();
-  debugObject.innerHTML = JSON.stringify(pokemon.pokemon, null, "<br>");
-
-  setCardData(pokemon.pokemon);
 }
 
 function getCard(index = 0) {
@@ -24,6 +26,14 @@ function getCard(index = 0) {
 
 function setCardData(data) {
   let card = getCard();
+
+  if (!data) {
+    data = {
+      frontSprite: "",
+      name: "",
+    };
+  }
+
   card.querySelector("img").src = data.frontSprite;
   card.querySelector("h1").innerHTML = data.name;
 }
@@ -37,17 +47,40 @@ function setCardTextVisible(visibility) {
   }
 }
 
+const statusCard = document.getElementById("statusCard");
+const statusTitle = document.getElementById("statusTitle");
+const statusText = document.getElementById("statusText");
+function setFetchStatus(value, title = "Loading...") {
+  const percentage = Number(value).toLocaleString(undefined, {
+    style: "percent",
+    minimumFractionDigits: 1,
+  });
+  statusText.innerHTML = percentage;
+  statusTitle.innerHTML = title;
+
+  if (value <= 0) {
+    statusCard.classList.add("hidden");
+  } else {
+    statusCard.classList.remove("hidden");
+  }
+}
+
+let fetchStatus = 0;
+let amountToFetch = 0;
+
 // Fetch Pokémon
-async function fetchPokemonList(limit = 10) {
+async function fetchPokemonList(limit = 20) {
   try {
     const response = await fetch(
       `https://pokeapi.co/api/v2/pokemon?limit=${limit}`
     );
     const data = await response.json();
     let pokemonDatas = [];
+    amountToFetch = limit;
     for (const pokemon of data.results) {
       const pokemonData = await fetchPokemonDetails(pokemon.url);
       pokemonDatas.push(pokemonData);
+      setFetchStatus(pokemonDatas.length / amountToFetch);
     }
     return pokemonDatas;
   } catch (error) {
@@ -128,17 +161,24 @@ let score = {
   incorrect: 0,
 };
 
-async function clearGame() {
-  let card = getCard();
+async function endGame() {
+  setFetchStatus(score.correct / (score.correct + score.incorrect), "Score");
+  setCardData();
+  setSelectButtons();
 }
 
 async function newGame() {
-  remainingPokemon = await fetchPokemonList();
+  score.correct = 0;
+  score.incorrect = 0;
+  setCardData();
+  setSelectButtons();
+
   toggleModal();
+  playAudio("Who's That Pokemon!.mp3");
 
-  playAudio();
-
-  await delay(5500);
+  remainingPokemon = await fetchPokemonList(getSliderValue());
+  await delay(2500);
+  setFetchStatus(0);
 
   await run();
 }
@@ -154,11 +194,16 @@ async function run() {
 
     let firstOption = randomPokemon();
     let secondOption = randomPokemon({
-      exclude: [firstOption],
+      exclude: [firstOption.index],
     });
 
     let options = [];
-    options.push(firstOption.pokemon, secondOption.pokemon, correctPokemon);
+
+    options.push(firstOption.pokemon, correctPokemon);
+    if (firstOption.pokemon != secondOption.pokemon) {
+      options.push(secondOption.pokemon);
+    }
+
     shuffleArray(options);
 
     setCardTextVisible(false);
@@ -166,25 +211,27 @@ async function run() {
 
     // Set button A, B and C
     setSelectButtons(options);
+  } else {
+    endGame();
   }
 }
 
 function setSelectButtons(options) {
   const buttons = document.querySelectorAll(".pickOption");
+  console.log(options);
+  buttons.forEach((element, index) => {
+    let option = options && options[index] ? options[index].name : "";
 
-  options.forEach((element, index) => {
-    if (!buttons[index]) return;
-
-    const button = buttons[index];
-
-    if (!element) {
-      button.classList.add("hidden");
+    if (option.length > 0) {
+      element.innerHTML = option;
+      element.classList.remove("hidden");
     } else {
-      button.classList.remove("hidden");
-      button.innerHTML = element.name;
+      element.classList.add("hidden");
     }
   });
 }
+
+function setInfoData(data) {}
 
 function select(selected = undefined) {
   if (selected?.innerHTML) {

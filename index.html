@@ -17,24 +17,29 @@
         <button class="card" onclick="toggleModal()">☰</button>
     </nav>
 
-    <main class="flexi">
+    <main class="flexi center">
+        <div class="fullWidth">
+            <img src="whosthatpokemon.png" alt="">
+        </div>
 
-        <h1 id="status">Who's That Pokémon?</h1>
-
-        <div class="pokemon card">
+        <div class="pokemon card center">
             <img src="" alt="">
             <h1 class="hidden"></h1>
             <audio id="myAudio">
                 <source src="Who's That Pokemon!.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
-            <button class="card" onclick="playAudio()" type="button">Play Audio</button>
         </div>
 
-        <div class="fullWidth flexi">
-            <button class="pickOption card" onclick="select(this)">A</button>
-            <button class="pickOption card" onclick="select(this)">B</button>
-            <button class="pickOption card" onclick="select(this)">C</button>
+        <div id="statusCard" class="card fullWidth">
+            <h1 id="statusTitle">Loading...</h1>
+            <h1 id="statusText">0%</h1>
+        </div>
+
+        <div class="flexi center">
+            <button class="pickOption card hidden" onclick="select(this)">A</button>
+            <button class="pickOption card hidden" onclick="select(this)">B</button>
+            <button class="pickOption card hidden" onclick="select(this)">C</button>
         </div>
 
     </main>
@@ -49,9 +54,10 @@
         <div class="contactContent">
 
             <div class="flexi">
-                <h1>Who's That Pokémon?</h1>
-                <button class="card" type="button" onclick="newGame()">New Game</button>
-                <button class="card" type="button" onclick="toggleModal()">Close</button>
+                <input id="mySlider" class="slider" type="range" min="10" max="151" value="20" oninput="updateSlider(this)">   
+                <p>Pokémon: <span id="mySliderDisplay">20</span></p>
+                <button class="card fullWidth" type="button" onclick="newGame()">New Game</button>
+                <button class="card fullWidth" type="button" onclick="toggleModal()">Close</button>
             </div>
 
         </div>
