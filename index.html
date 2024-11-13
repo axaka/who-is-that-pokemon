@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Who's That Pokémon?</title>
+    <link rel="stylesheet" href="font.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,7 +14,7 @@
 
     <nav>
         <a href="/"><img src="/pokeball.png" alt="hjemeside"></a>
-        <button onclick="toggleModal()">☰</button>
+        <button class="card" onclick="toggleModal()">☰</button>
     </nav>
 
     <main class="flexi">
@@ -22,33 +23,37 @@
 
         <div class="pokemon card">
             <img src="" alt="">
-            <h1></h1>
-            <p></p>
+            <h1 class="hidden"></h1>
+            <audio id="myAudio">
+                <source src="Who's That Pokemon!.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <button class="card" onclick="playAudio()" type="button">Play Audio</button>
         </div>
 
         <div class="fullWidth flexi">
-            <button class="pickOption" onclick="select(this)">A</button>
-            <button class="pickOption" onclick="select(this)">B</button>
-            <button class="pickOption" onclick="select(this)">C</button>
+            <button class="pickOption card" onclick="select(this)">A</button>
+            <button class="pickOption card" onclick="select(this)">B</button>
+            <button class="pickOption card" onclick="select(this)">C</button>
         </div>
 
     </main>
 
 
     <footer>
-        Laget av Martin Vadseth Høiby - Pokémon API av <a href="https://pokeapi.co/docs/v2#pokemon-section">https://pokeapi.co/docs/v2#pokemon-section</a>
+        Laget av Martin Vadseth Høiby - Pokémon API av <a
+            href="https://pokeapi.co/docs/v2#pokemon-section">https://pokeapi.co/docs/v2#pokemon-section</a>
     </footer>
 
-    <div id="contactModal" class="contactModal hidden">
+    <div id="contactModal" class="contactModal">
         <div class="contactContent">
 
             <div class="flexi">
-                <h1>Debug Pokémon info</h1>
-                <button type="button" onclick="toggleModal()">X</button>
+                <h1>Who's That Pokémon?</h1>
+                <button class="card" type="button" onclick="newGame()">New Game</button>
+                <button class="card" type="button" onclick="toggleModal()">Close</button>
             </div>
-            <button type="button" onclick="debugPokemon()">Get Pokémon Info</button>
-            <p id="debug"></p>
-            
+
         </div>
     </div>
 

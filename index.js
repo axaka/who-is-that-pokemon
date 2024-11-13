@@ -1,7 +1,13 @@
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 function toggleModal() {
   let modal = document.getElementById("contactModal");
-  console.log(modal);
   modal.classList.toggle("hidden");
+}
+
+var myAudio = document.getElementById("myAudio");
+function playAudio() {
+  myAudio.play();
 }
 
 function debugPokemon() {
@@ -9,18 +15,26 @@ function debugPokemon() {
   let pokemon = randomPokemon();
   debugObject.innerHTML = JSON.stringify(pokemon.pokemon, null, "<br>");
 
-  // debugger;
-  let card = getCard();
-  setCardData(card, pokemon.pokemon);
+  setCardData(pokemon.pokemon);
 }
 
 function getCard(index = 0) {
   return (randomCard = document.querySelectorAll(".pokemon")[index]);
 }
 
-function setCardData(card, data) {
+function setCardData(data) {
+  let card = getCard();
   card.querySelector("img").src = data.frontSprite;
-  card.querySelector("h1").innerHTML = "?"; //data.name;
+  card.querySelector("h1").innerHTML = data.name;
+}
+
+function setCardTextVisible(visibility) {
+  let card = getCard();
+  if (visibility) {
+    card.querySelector("h1").classList.remove("hidden");
+  } else {
+    card.querySelector("h1").classList.add("hidden");
+  }
 }
 
 // Fetch Pokémon
@@ -114,13 +128,22 @@ let score = {
   incorrect: 0,
 };
 
-init();
-async function init() {
-  remainingPokemon = await fetchPokemonList();
-  run();
+async function clearGame() {
+  let card = getCard();
 }
 
-function run() {
+async function newGame() {
+  remainingPokemon = await fetchPokemonList();
+  toggleModal();
+
+  playAudio();
+
+  await delay(5500);
+
+  await run();
+}
+
+async function run() {
   if (remainingPokemon.length > 0) {
     let nextPokemon = randomPokemon();
 
@@ -138,9 +161,8 @@ function run() {
     options.push(firstOption.pokemon, secondOption.pokemon, correctPokemon);
     shuffleArray(options);
 
-    // Set the card
-    let card = getCard();
-    setCardData(card, correctPokemon);
+    setCardTextVisible(false);
+    setCardData(correctPokemon);
 
     // Set button A, B and C
     setSelectButtons(options);
