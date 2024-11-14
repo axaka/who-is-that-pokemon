@@ -14,10 +14,12 @@ function toggleModal() {
   modal.classList.toggle("hidden");
 }
 
-var myAudio = document.getElementById("myAudio");
-function playAudio(url) {
-  myAudio.querySelector("source").src = url;
-  myAudio.play();
+var audioWho = document.getElementById("audio-who");
+var audioSuccess = document.getElementById("audio-success");
+var audioFail = document.getElementById("audio-fail");
+var audioComplete = document.getElementById("audio-complete");
+function playAudio(audioPlayer) {
+  audioPlayer.play();
 }
 
 function getCard(index = 0) {
@@ -165,6 +167,7 @@ async function endGame() {
   setFetchStatus(score.correct / (score.correct + score.incorrect), "Score");
   setCardData();
   setSelectButtons();
+  playAudio(audioComplete);
 }
 
 async function newGame() {
@@ -174,7 +177,7 @@ async function newGame() {
   setSelectButtons();
 
   toggleModal();
-  playAudio("Who's That Pokemon!.mp3");
+  playAudio(audioWho);
 
   remainingPokemon = await fetchPokemonList(getSliderValue());
   await delay(2500);
@@ -237,8 +240,10 @@ function select(selected = undefined) {
   if (selected?.innerHTML) {
     if (selected.innerHTML == correctPokemon.name) {
       score.correct++;
+      playAudio(audioSuccess);
     } else {
       score.incorrect++;
+      playAudio(audioFail);
     }
     console.log(`score is ${score.correct}/${score.correct + score.incorrect}`);
 

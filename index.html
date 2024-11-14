@@ -12,26 +12,39 @@
 
 <body>
 
+    <audio id="audio-who">
+        <source src="sounds/Who's That Pokemon!.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="audio-success">
+        <source src="sounds/pokemon-success.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="audio-fail">
+        <source src="sounds/pokemon-fail.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="audio-complete">
+        <source src="sounds/pokemon-complete.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <nav>
-        <a href="/"><img src="/pokeball.png" alt="hjemeside"></a>
+        <a href="/"><img src="images/pokeball.png" alt="hjemeside"></a>
         <button class="card" onclick="toggleModal()">☰</button>
     </nav>
 
     <main class="flexi center">
         <div class="fullWidth">
-            <img src="whosthatpokemon.png" alt="">
+            <img src="images/whosthatpokemon.png" alt="">
         </div>
 
-        <div class="pokemon card center">
+        <div class="pokemon center fullWidth">
             <img src="" alt="">
             <h1 class="hidden"></h1>
-            <audio id="myAudio">
-                <source src="Who's That Pokemon!.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
         </div>
 
-        <div id="statusCard" class="card fullWidth">
+        <div id="statusCard" class="fullWidth info">
             <h1 id="statusTitle">Loading...</h1>
             <h1 id="statusText">0%</h1>
         </div>
